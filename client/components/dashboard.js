@@ -1,4 +1,7 @@
 import React from 'react'
+import MyMap from './myMap'
+import PvWatts from './pvWatts'
+
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -6,7 +9,6 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-    console.log(this.props.address);
     return (
       <div>
         <p>Address: {this.props.address}</p>
@@ -15,6 +17,8 @@ export default class Dashboard extends React.Component {
         <p>ZipCode: {this.props.zip}</p>
         <p>State: {this.props.state}</p>
         <p>City: {this.props.city}</p>
+        <PvWatts />
+        <MyMap lat={this.props.lat} long={this.props.lng}/>
       </div>
     );
   }
