@@ -40,10 +40,11 @@ class Home extends React.Component {
 
   state= {
     error: '', 
-    ready: false, 
+    ready: false,
+    loading: false,
     address: null, 
     lat: null, 
-    lon: null ,
+    lon: null 
   };
 
   constructor() {
@@ -57,6 +58,7 @@ class Home extends React.Component {
   loadData = async () => {
     // Set ready to false when loading new data
     this.setState({ready: false});
+    this.setState({loading: true});
 
     let zip = null;
     let city = null;
@@ -167,7 +169,7 @@ class Home extends React.Component {
     }
     
     // Update state with loaded data
-    // Set ready to true once data is loaded
+    // Set ready to true and loading to false once data is loaded
     this.setState({
       zip, 
       city, 
@@ -177,7 +179,8 @@ class Home extends React.Component {
       lon, 
       pvwatt,
       utilityRates,
-      ready: true
+      ready: true,
+      loading: false
     })
   }
 
