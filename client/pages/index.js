@@ -39,7 +39,7 @@ const styles = theme => ({
 class Home extends React.Component {
 
   state= {
-    error: '', 
+    error: '',
     ready: false,
     loading: false,
     address: null,
@@ -151,10 +151,10 @@ class Home extends React.Component {
         lon,
         system_capacity: 40,
         module_type: 0, // standard,
-        losses: 0,
+        losses: 14.08,
         array_type: 0, // fixed open rack
-        tilt: 45,
-        azimuth: 45,
+        tilt: 20,
+        azimuth: 180,
       })
 
       if (data.errors.length > 0) {

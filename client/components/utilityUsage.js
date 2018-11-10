@@ -2,6 +2,7 @@ import React from 'react'
 import Area from './area'
 import Grid from '@material-ui/core/Grid';
 import ROI from './roi';
+import PROD from './prod';
 
 export default class UtilityUsage extends React.Component {
   constructor(props) {
@@ -59,31 +60,28 @@ export default class UtilityUsage extends React.Component {
 
 
     if(this.props.pvwatt) {
-      annprod = Math.floor(parseFloat(this.props.pvwatt.ac_annual) * 0.001);
+      annprod = Math.floor(parseFloat(this.props.pvwatt.ac_annual) * 0.1);
       prod.push(
         <div className="prod">
-          <h2>Amount Produced Annually (MWH):</h2>
-          <p>{annprod}</p>
+          <PROD value={annprod} text="Amount Produced Annually (kWH):"/>
         </div>
       )
-      peakprod = Math.floor(parseFloat(this.props.pvwatt.ac_monthly.sort()[0]) * 0.001);
+      peakprod = Math.floor(parseFloat(this.props.pvwatt.ac_monthly.sort()[0]) * 0.1);
       prod.push(
         <div className="prod">
-          <h2>Amount Produced In Peak Month (MWH):</h2>
-          <p>{peakprod}</p>
+          <PROD value={peakprod} text="Amount Produced In Peak Month (kWH):"/>
         </div>
       )
-      lowprod = parseFloat(this.props.pvwatt.ac_monthly.sort()[this.props.pvwatt.ac_monthly.length - 1]) * 0.001;
+      lowprod = Math.floor(parseFloat(this.props.pvwatt.ac_monthly.sort()[this.props.pvwatt.ac_monthly.length - 1]) * 0.1);
       prod.push(
         <div className="prod">
-          <h2>mount Produced In Lowest Month (MWH):</h2>
-          <p>{lowprod}</p>
+          <PROD value={lowprod} text="Amount Produced In Lowest Month (kWH):"/>
         </div>
       )
 
-      let savingann = Math.floor(annprod*costPer);
-      let savingpeak = Math.floor(peakprod*costPer);
-      let savinglow = Math.floor(lowprod*costPer);
+      let savingann = Math.floor((annprod*costPer)*0.001);
+      let savingpeak = Math.floor((peakprod*costPer)*0.001);
+      let savinglow = Math.floor((lowprod*costPer)*0.001);
 
       savings.push(
         <div className="save">
@@ -104,9 +102,6 @@ export default class UtilityUsage extends React.Component {
         </div>
       )
     }
-
-
-
 
 
 
