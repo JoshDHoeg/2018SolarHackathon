@@ -5,8 +5,7 @@ export default class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        <h1>Hello, {this.props.name}</h1>
-        <MyMap/>
+        <MyMap lat={this.props.lat} long={this.props.long}/>
       </div>
     );
   }
