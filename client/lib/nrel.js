@@ -21,10 +21,9 @@ export function GetExpendituresGHGBySector(params) {
 export function GetPVWatts(params) {
   return axios.create({
     method: 'get',
-    baseURL: `${baseUrl}/api/pvwatts/v6.format/`,
+    baseURL: `https://developer.nrel.gov/api/pvwatts/v6.json/`,
     params: {
       api_key: apikey,
-      format: 'json',
       ...params
     }
   }).get();
