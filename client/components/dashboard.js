@@ -9,12 +9,12 @@ export default class Dashboard extends React.Component {
     console.log(this.props.address);
     return (
       <div>
-        <p>Address: {this.props.address.address}</p>
-        <p>Latitude: {this.props.address.lat}</p>
-        <p>Longitude: {this.props.address.lng}</p>
-        <p>ZipCode: {this.props.address.zip}</p>
-        <p>State: {this.props.address.state}</p>
-        <p>City: {this.props.address.city}</p>
+        <p>Address: {this.props.address}</p>
+        <p>Latitude: {this.props.lat}</p>
+        <p>Longitude: {this.props.lon}</p>
+        <p>ZipCode: {this.props.zip}</p>
+        <p>State: {this.props.state}</p>
+        <p>City: {this.props.city}</p>
       </div>
     );
   }
