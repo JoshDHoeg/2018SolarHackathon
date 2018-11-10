@@ -32,6 +32,9 @@ export default class Home extends React.Component {
   }
 
   loadData = async () => {
+    // Set ready to false when loading new data
+    this.setState({ready: false});
+
     let zip = null;
     let city = null;
     let state = null;
@@ -124,10 +127,16 @@ export default class Home extends React.Component {
     }
     
     // Update state with loaded data
+    // Set ready to true once data is loaded
     this.setState({
-      zip, city, state, expenditure,
-      lat, lon, 
-      pvwatt
+      zip, 
+      city, 
+      state, 
+      expenditure,
+      lat, 
+      lon, 
+      pvwatt,
+      ready: true
     })
   }
 
