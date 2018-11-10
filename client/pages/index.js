@@ -99,7 +99,7 @@ export default class Home extends React.Component {
 
 
   render() {
-    const {error} = this.state;
+    const {error, zip, address, city, state, expenditure} = this.state;
     
     return (
       <div>
@@ -124,7 +124,7 @@ export default class Home extends React.Component {
           </div>
         </header>
 
-        <Dashboard address={this.state}/>
+        <Dashboard {...this.state}/>
 
       </div>
     );
