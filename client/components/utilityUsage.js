@@ -92,10 +92,10 @@ class UtilityUsage extends React.Component {
       let savinglow = Math.floor((lowprod*costPer)*0.001);
 
       savings.push(
-          <ROI roiText={"Yearly Savings (MWH): "}value={savinglow} />
+          <ROI roiText={"Yearly Savings (MWH): "}value={savingann} />
       )
       savings.push(
-          <ROI roiText={"Peak Monthly Savings (MWH): "}value={savinglow} />
+          <ROI roiText={"Peak Monthly Savings (MWH): "}value={savingpeak} />
       )
       savings.push(
           <ROI roiText={"Low Months Savigns (MWH): "}value={savinglow} />
