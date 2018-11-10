@@ -23,6 +23,9 @@ const styles = theme => ({
   searchFormGrid: {
     alignContent: 'center',
     alignItems: 'center',
+    marginVertical: 100,
+    paddingTop: 50,
+    paddingBottom: 70
   },
   textField: {
     marginLeft: 0,
@@ -206,11 +209,9 @@ class Home extends React.Component {
         <Grid container spacing={12} direction="column" className={classes.searchFormGrid}>
           <Grid item xs={6} className={classes.searchFormGrid}>
 
-            {/* <form onSubmit={this.handleSubmit} noValidate autoComplete="off"> */}
-
               <TextField
                 id="outlined-name"
-                label="Address"
+                label="Enter an Address"
                 className={classes.textField}
                 value={this.state.name}
                 onChange={this.handleChange('address')}
@@ -218,28 +219,14 @@ class Home extends React.Component {
                 variant="outlined"
               />
 
+              {(error && error != '') ? <p style={classes.errorText}>{error}</p> : null}
+
               <Button variant="contained" color="primary" onClick={this.loadData} className={classes.submitButton}>
-              Submit
+                Search
               </Button>
-              
-              {/* <input className="input-submit" type="submit" value="Submit" /> */}
-            {/* </form> */}
 
           </Grid>
         </Grid>
-
-        <header className="App-header" >
-          <div className="App-header-info">
-
-            <h1 className="App-title">Welcome to Daddy</h1>
-            <p>Enter an address to find the cost of a solar plan</p>
-
-            
-
-            {(error && error != '') ? <p style={classes.errorText}>{error}</p> : null}
-            
-          </div>
-        </header>
 
         <Dashboard {...this.state}/>
 
