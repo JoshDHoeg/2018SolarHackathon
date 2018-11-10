@@ -20,7 +20,6 @@ export default class Dashboard extends React.Component {
             <Prospect {...this.props} />
             <PvWatts {...this.props.pvwatt}/>
             <UtilityUsage />
-            <MyMap {...this.props}/>
           </div>
         );
       }
