@@ -1,6 +1,7 @@
 import React from 'react'
 import MyMap from './myMap'
 import PvWatts from './pvWatts'
+import UtilityUsage from './utilityUsage'
 
 
 export default class Dashboard extends React.Component {
@@ -18,7 +19,8 @@ export default class Dashboard extends React.Component {
         <p>State: {this.props.state}</p>
         <p>City: {this.props.city}</p>
         <PvWatts />
-        <MyMap lat={this.props.lat} long={this.props.lng}/>
+        <UtilityUsage />
+        <MyMap lat={this.props.lat} lon={this.props.lon}/>
       </div>
     );
   }
