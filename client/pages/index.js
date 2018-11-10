@@ -39,7 +39,7 @@ export default class Home extends React.Component {
         // console.log("State: " + this.state.state);
       }
 
-      console.log(this.state);
+      // console.log(this.state);
     }
   }
 
