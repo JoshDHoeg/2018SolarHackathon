@@ -6,7 +6,6 @@ export default class PvWatts extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         if(this.props.ac_monthly != null) { 
             return (
                 <div>
