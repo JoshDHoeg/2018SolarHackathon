@@ -10,7 +10,7 @@ export default class Home extends React.Component {
 
   constructor() {
     super();
-    this.state = {address: '1600 Amphitheatre Parkway, Mountain View, CA', lat: '', lng: '' };
+    this.state = {address: '', lat: '', lng: '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
