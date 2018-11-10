@@ -86,34 +86,23 @@ export default class UtilityUsage extends React.Component {
       let savinglow = Math.floor(lowprod*costPer);
 
       savings.push(
-        <div className="save">
           <ROI roiText={"Yearly Savings (MWH): "}value={savinglow} />
-        </div>
       )
       savings.push(
-        <div className="save">
           <ROI roiText={"Peak Monthly Savings (MWH): "}value={savinglow} />
-        </div>
       )
       savings.push(
-        <div className="save">
           <ROI roiText={"Low Months Savigns (MWH): "}value={savinglow} />
-        </div>
       )
     }
 
-
-
-
-
-
       return (
         <div>
-            <Grid container spacing={12} direction="column">
+            <Grid container spacing={12} direction="row">
               {savings}
             </Grid>
             <Grid container spacing={12} direction="row">
-              <Grid item sm={6}>
+              <Grid item direction="row">
                 {prod}
               </Grid>
               <Grid item sm={6}>
