@@ -28,3 +28,18 @@ export function GetPVWatts(params) {
     }
   }).get();
 }
+
+/**
+ * 
+ * @param {Object} params {address, lat, lon, radius, limit}
+ */
+export function GetUtilityRates(params) {
+  return axios.create({
+    method: 'get',
+    baseURL: `https://developer.nrel.gov/api/utility_rates/v3.json`,
+    params: {
+      api_key: apikey,
+      ...params
+    }
+  }).get();
+}
