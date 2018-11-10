@@ -3,6 +3,8 @@ import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
 
+import {GetGeocodeFromAddress} from '../lib/google';
+
 const Home = () => (
   <div>
     <Head title="Home" />
@@ -87,5 +89,18 @@ const Home = () => (
     `}</style>
   </div>
 )
+
+Home.getInitialProps = async function() {
+  console.log('Get Proprs')
+  // const res = GetGeocodeFromAddress('1600 Amphitheatre Parkway, Mountain View, CA')
+  // console.log('DTA: ', res)
+  // const data = await res.json()
+
+  // console.log(`Show data fetched. Count: ${data.length}`)
+
+  return {
+    
+  }
+}
 
 export default Home
