@@ -69,7 +69,8 @@ class Home extends React.Component {
     let expenditure = null;
     let utilityRates = null;
 
-    if (this.state.address == '') {
+    console.log('Address: ', this.state.address)
+    if (this.state.address == null || this.state.address.length == 0) {
       this.setState({error: 'Please enter a valid address'})
       return
     }
@@ -180,7 +181,8 @@ class Home extends React.Component {
       pvwatt,
       utilityRates,
       ready: true,
-      loading: false
+      loading: false,
+      error: ''
     })
   }
 
@@ -204,8 +206,6 @@ class Home extends React.Component {
       <div className={classes.root}>
         <Head title="Home" />
         <Nav />
-  
-        <p>{error}</p>
 
         <Grid container spacing={16} direction="row" className={classes.searchFormGrid}>
           <Grid item xs={2} className={classes.searchFormGrid}></Grid>
@@ -222,7 +222,7 @@ class Home extends React.Component {
                 variant="outlined"
               />
 
-              {(error && error != '') ? <p style={classes.errorText}>{error}</p> : null}
+              {(error && error != '') ? <p className={classes.errorText}>{error}</p> : null}
 
               <Button variant="contained" color="primary" onClick={this.loadData} className={classes.submitButton}>
                 Search
