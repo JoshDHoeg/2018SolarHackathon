@@ -6,12 +6,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@material-ui/core": "latest",
+    "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
     "google-map-react": "^1.1.0",
+    "jss": "latest",
     "next": "^7.0.2",
     "next-js": "^0.9.0-alpha",
     "next.js": "^1.0.3",
+    "prop-types": "latest",
     "react": "^16.6.1",
-    "react-dom": "^16.6.1"
+    "react-dom": "^16.6.1",
+    "react-jss": "latest"
   }
 }
