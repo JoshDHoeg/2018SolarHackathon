@@ -5,12 +5,19 @@ import Nav from '../components/nav'
 import Dashboard from '../components/dashboard'
 
 import {GetGeocodeFromAddress} from '../lib/google';
+import {GetExpendituresGHGBySector} from '../lib/nrel';
+
+const styles = {
+  errorText: {
+    color: 'red'
+  }
+}
 
 export default class Home extends React.Component {
 
   constructor() {
     super();
-    this.state = {address: '', lat: '', lng: '' };
+    this.state = {error: '', address: '', lat: '', lon: '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,29 +25,67 @@ export default class Home extends React.Component {
   }
 
   loadData = async () => {
-    const result = await GetGeocodeFromAddress(this.state.address)
-
-    let location = result.data.results[0].geometry.location;
-    this.setState({lat: location.lat, lng: location.lng});
-
-    let address = result.data.results[0].address_components
-    // console.log(address);
-    for (let j = 0; j < address.length; j++) {
-      if (address[j].types[0] == 'postal_code'){
-        this.setState({zip: address[j].short_name});
-        // console.log("Zip Code: " + this.state.zip);
-      }
-      else if (address[j].types[0] == 'locality'){
-        this.setState({city: address[j].short_name});
-        // console.log("City: " + this.state.city);
-      }
-      else if (address[j].types[0] == 'administrative_area_level_1'){
-        this.setState({state: address[j].short_name});
-        // console.log("State: " + this.state.state);
-      }
-
-      // console.log(this.state);
+    if (this.state.address == '') {
+      this.setState({error: 'Please enter a valid address'})
+      return
     }
+
+    let geocodeResult = null;
+    try {
+      geocodeResult = await GetGeocodeFromAddress(this.state.address);
+    } catch (e) {
+      this.setState({error: 'NREL servers are unavailable at the moment.'})
+      return;
+    }
+    
+    // (!) Looks like geocode always gives an address, so assume we found it! 
+    
+    let location = geocodeResult.data.results[0].geometry.location;
+    this.setState({lat: location.lat, lon: location.lng});
+    let addressComponents = geocodeResult.data.results[0].address_components
+
+    // Parse Geocode
+    if (addressComponents.length == 0) {
+      this.setState({error: "We couldn't find that address!"})
+      return
+    }
+
+    let zip = null;
+    let city = null;
+    let state = null;
+    let expenditure = null;
+
+    for (let j = 0; j < addressComponents.length; j++) {
+      if (addressComponents[j].types[0] == 'postal_code'){
+        zip = addressComponents[j].short_name;
+      }
+      else if (addressComponents[j].types[0] == 'locality'){
+        city = addressComponents[j].short_name
+      }
+      else if (addressComponents[j].types[0] == 'administrative_area_level_1'){
+        state = addressComponents[j].short_name
+      }
+    }
+
+    // Get Expenditure data
+    try {
+      const {data: {errors, result}} = await GetExpendituresGHGBySector({zip, city, state_abbr: state})
+
+      if (errors.length > 0) {
+        this.setState({error: 'Error getting expenditure data.'})
+        return;
+      }
+
+      expenditure = result;
+    } catch (e) {
+      this.setState({error: 'Expenditure data is not available.'})
+      return;
+    }
+    
+
+    this.setState({
+      zip, city, state, expenditure
+    })
   }
 
   handleChange(event) {
@@ -54,6 +99,8 @@ export default class Home extends React.Component {
 
 
   render() {
+    const {error} = this.state;
+    
     return (
       <div>
         <Head title="Home" />
@@ -62,8 +109,12 @@ export default class Home extends React.Component {
 
         <header className="App-header" >
           <div className="App-header-info">
+
             <h1 className="App-title">Welcome to Daddy</h1>
             <p>Enter an address to find the cost of a solar plan</p>
+
+            {(error && error != '') ? <p style={styles.errorText}>{error}</p> : null}
+
             <form onSubmit={this.handleSubmit}>
               <label>
                 <input className="input-zip" type="text" value={this.state.address} onChange={this.handleChange} />
