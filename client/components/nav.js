@@ -52,9 +52,7 @@ const Nav = (props) => {
                   
               </div>
 
-              <Link href="/dashboard">
-                <Button color="inherit">GitHub</Button>
-              </Link>
+              <Button onClick={() => {window.location='https://github.com/JoshDHoeg/2018SolarHackathon'}}color="inherit">GitHub</Button>
             
           </Toolbar>
         </AppBar>
