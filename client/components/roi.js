@@ -22,10 +22,19 @@ const styles = theme => ({
 
 class ROI extends React.Component {
   render() {
-    const { classes, value } = this.props;
-      return (
+    const { classes, ready, value } = this.props;
+
+    // // Don't show anything if 
+    // if (value == null) {
+    //   return null
+    // }
+    // if (!ready) {
+    //   // TODO - show loading screen
+    // }
+
+    return (
       <div className={classes.root}>
-        <Grid container spacing={12} direction="column" className={classes.gridContainer}>
+        <Grid container spacing={16} direction="column" className={classes.gridContainer}>
             <Grid item xs={12}>
               <Typography className={classes.greenText} component="h2" variant="h6" gutterBottom>
                 Return on Investment
@@ -36,7 +45,7 @@ class ROI extends React.Component {
             </Grid>
           </Grid>
       </div>
-      );
+    );
   }
 }
 

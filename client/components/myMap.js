@@ -14,12 +14,11 @@ export default class MyMap extends React.Component {
     if(this.props.lat != null) { 
       let center = {lat: this.props.lat, lng: this.props.lon};
       return (
-        <div className='google-map' style={{ height: '100vh', width: '80%' , margin: '10%'}}>
-            <h1>Map {this.props.lat} {this.props.lon}</h1>
+        <div className='google-map' style={{ width: 400, height: 400, boxShadow: `0px 0px 20px grey`}}>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: 'AIzaSyCnzBSpHacGXihBxlceazNT2dWoXRBz750'}}
                 defaultCenter={ center }
-                defaultZoom={ 11 }>
+                defaultZoom={ 12 }>
             </GoogleMapReact>
         </div>
       );
