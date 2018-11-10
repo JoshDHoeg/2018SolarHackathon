@@ -39,11 +39,12 @@ const styles = theme => ({
 class Home extends React.Component {
 
   state= {
-    error: '',
+    error: '', 
     ready: false,
+    loading: false,
     address: null,
     lat: null,
-    lon: null ,
+    lon: null
   };
 
   constructor() {
@@ -57,6 +58,7 @@ class Home extends React.Component {
   loadData = async () => {
     // Set ready to false when loading new data
     this.setState({ready: false});
+    this.setState({loading: true});
 
     let zip = null;
     let city = null;
@@ -167,7 +169,7 @@ class Home extends React.Component {
     }
 
     // Update state with loaded data
-    // Set ready to true once data is loaded
+    // Set ready to true and loading to false once data is loaded
     this.setState({
       zip,
       city,
@@ -177,7 +179,8 @@ class Home extends React.Component {
       lon,
       pvwatt,
       utilityRates,
-      ready: true
+      ready: true,
+      loading: false
     })
   }
 
@@ -204,10 +207,10 @@ class Home extends React.Component {
 
         <p>{error}</p>
 
-        <Grid container spacing={12} direction="row" className={classes.searchFormGrid}>
-          <Grid item xs={3} className={classes.searchFormGrid}></Grid>
+        <Grid container spacing={16} direction="row" className={classes.searchFormGrid}>
+          <Grid item xs={2} className={classes.searchFormGrid}></Grid>
 
-          <Grid item xs={6} className={classes.searchFormGrid}>
+          <Grid item xs={8} className={classes.searchFormGrid}>
 
               <TextField
                 id="outlined-name"
