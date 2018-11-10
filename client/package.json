@@ -16,6 +16,7 @@
     "next.js": "^1.0.3",
     "prop-types": "latest",
     "react": "^16.6.1",
+    "react-d3-components": "^0.9.1",
     "react-dom": "^16.6.1",
     "react-jss": "latest"
   }

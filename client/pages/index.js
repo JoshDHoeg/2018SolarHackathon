@@ -204,7 +204,7 @@ class Home extends React.Component {
       <div className={classes.root}>
         <Head title="Home" />
         <Nav />
-
+  
         <p>{error}</p>
 
         <Grid container spacing={16} direction="row" className={classes.searchFormGrid}>
