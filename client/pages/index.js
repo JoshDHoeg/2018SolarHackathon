@@ -3,6 +3,11 @@ import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import Dashboard from '../components/dashboard'
+import axios from 'axios';
+
+const usdaInstance = axios.create({
+  baseURL: 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyAXv_Ffe-izY9slVX5D8kpDt_YWIzC-vQU'
+});
 
 
 export default class Home extends React.Component {
@@ -13,6 +18,19 @@ export default class Home extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.loadData = this.loadData.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  loadData () {
+    usdaInstance.get()
+    .then(res => {
+      const zipdata = res.data;
+      console.log(zipdata);
+      });
   }
 
   handleChange(event) {
