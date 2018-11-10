@@ -6,6 +6,10 @@ import axios from 'axios';
  */
 export function GetGeocodeFromAddress(address) {
   return axios.create({
-    baseURL: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyAXv_Ffe-izY9slVX5D8kpDt_YWIzC-vQU`
+    baseURL: `https://maps.googleapis.com/maps/api/geocode/json?`,
+    params: {
+      address,
+      key: 'AIzaSyAXv_Ffe-izY9slVX5D8kpDt_YWIzC-vQU'
+    }
   }).get();
 }
