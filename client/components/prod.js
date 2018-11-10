@@ -16,7 +16,8 @@ const styles = theme => ({
     textAlign: 'center'
   },
   greenText: {
-    color: '#2e42cc'
+    color: '#2e42cc',
+    textAlign: 'center'
   }
 });
 
@@ -33,15 +34,13 @@ class PROD extends React.Component {
     // }
 
     return (
-        <Grid container spacing={16} xs={12} lg={4} direction="column" className={classes.gridContainer}>
-            <Grid item xs={12}>
+        <Grid className={classes.gridItem} item xs={12} lg={4}>
               <Typography className={classes.greenText} component="h2" variant="h6" gutterBottom>
                 {text}
               </Typography>
               <Typography className={classes.greenText} component="h2" variant="h1" gutterBottom>
                 {value}
               </Typography>
-            </Grid>
           </Grid>
     );
   }

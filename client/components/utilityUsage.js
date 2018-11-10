@@ -3,8 +3,20 @@ import Area from './area'
 import Grid from '@material-ui/core/Grid';
 import ROI from './roi';
 import PROD from './prod';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
-export default class UtilityUsage extends React.Component {
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  gridContainer: {
+    paddingTop: 48,
+    paddingBottom: 48
+  },
+});
+
+class UtilityUsage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,8 +31,8 @@ export default class UtilityUsage extends React.Component {
 
 
   render() {
+    const {classes} = this.props;
 
-    console.log(this.props);
     let areas = [];
     let avg = 0;
     let cost = 0;
@@ -47,12 +59,14 @@ export default class UtilityUsage extends React.Component {
         cost = Math.floor(elec_1kdollars/housing_units * 1000);
         costPer = Math.floor(elec_1kdollars/elec_mwh * 1000);
         areas.push(
-          <div className="area">
-            <h2>{key}</h2>
-            <p>Average Electricity Usage: {avg}</p>
-            <p>Average Cost Per Year: {cost}</p>
-            <p>Cost Per MegaWatt: {costPer}</p>
-          </div>)
+          <Area name={key} {...{avg, cost, costPer}} />
+          // <div className="area">
+          //   <h2>{key}</h2>
+          //   <p>Average Electricity Usage: {avg}</p>
+          //   <p>Average Cost Per Year: {cost}</p>
+          //   <p>Cost Per MegaWatt: {costPer}</p>
+          // </div>
+          )
         console.log(value);
       })
     }
@@ -62,21 +76,15 @@ export default class UtilityUsage extends React.Component {
     if(this.props.pvwatt) {
       annprod = Math.floor(parseFloat(this.props.pvwatt.ac_annual) * 0.1);
       prod.push(
-        <div className="prod">
           <PROD value={annprod} text="Amount Produced Annually (kWH):"/>
-        </div>
       )
       peakprod = Math.floor(parseFloat(this.props.pvwatt.ac_monthly.sort()[0]) * 0.1);
       prod.push(
-        <div className="prod">
           <PROD value={peakprod} text="Amount Produced In Peak Month (kWH):"/>
-        </div>
       )
       lowprod = Math.floor(parseFloat(this.props.pvwatt.ac_monthly.sort()[this.props.pvwatt.ac_monthly.length - 1]) * 0.1);
       prod.push(
-        <div className="prod">
           <PROD value={lowprod} text="Amount Produced In Lowest Month (kWH):"/>
-        </div>
       )
 
       let savingann = Math.floor((annprod*costPer)*0.001);
@@ -84,41 +92,41 @@ export default class UtilityUsage extends React.Component {
       let savinglow = Math.floor((lowprod*costPer)*0.001);
 
       savings.push(
-        <div className="save">
-          <ROI value={savingann} />
-          <h2>Yearly Savings (MWH):</h2>
-        </div>
+          <ROI roiText={"Yearly Savings (MWH): "}value={savinglow} />
       )
       savings.push(
-        <div className="save">
-          <ROI value={savingpeak} />
-          <h2>Peak Monthly Savings (MWH):</h2>
-        </div>
+          <ROI roiText={"Peak Monthly Savings (MWH): "}value={savinglow} />
       )
       savings.push(
-        <div className="save">
-          <ROI value={savinglow} />
-          <h2>Low Months Savigns (MWH):</h2>
-        </div>
+          <ROI roiText={"Low Months Savigns (MWH): "}value={savinglow} />
       )
     }
 
-
-
       return (
-        <div>
-            <Grid container spacing={12} direction="column">
+        <div className={classes.root}>
+
+            <Grid container className={classes.gridContainer} spacing={16} direction="row">
               {savings}
             </Grid>
-            <Grid container spacing={12} direction="row">
-              <Grid item sm={6}>
+
+            <Grid container className={classes.gridContainer} spacing={16} direction="row">
                 {prod}
-              </Grid>
-              <Grid item sm={6}>
-                {areas}
+            </Grid>
+
+          <Grid container spacing={16} direction="column">
+            <Grid item xs={12}>
+              <Grid container spacing={16} direction="row">
+                  {areas}
               </Grid>
             </Grid>
-          </div>
+          </Grid>
+        </div>
       );
   }
 }
+
+UtilityUsage.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(UtilityUsage);

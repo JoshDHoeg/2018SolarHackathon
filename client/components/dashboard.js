@@ -16,7 +16,6 @@ export default class Dashboard extends React.Component {
       if(this.props.ready) {
         return (
           <div>
-            <ROI value={1200} />
             <Prospect {...this.props} />
             <UtilityUsage pvwatt={this.props.pvwatt} expenditure={this.props.expenditure} utilityRates={this.props.utilityRates}/>
           </div>
