@@ -2,8 +2,16 @@ import React from 'react'
 import Area from './area'
 import Grid from '@material-ui/core/Grid';
 import ROI from './roi';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
-export default class UtilityUsage extends React.Component {
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+});
+
+class UtilityUsage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,8 +26,8 @@ export default class UtilityUsage extends React.Component {
 
 
   render() {
+    const {classes} = this.props;
 
-    console.log(this.props);
     let areas = [];
     let avg = 0;
     let cost = 0;
@@ -46,12 +54,14 @@ export default class UtilityUsage extends React.Component {
         cost = Math.floor(elec_1kdollars/housing_units * 1000);
         costPer = Math.floor(elec_1kdollars/elec_mwh * 1000);
         areas.push(
-          <div className="area">
-            <h2>{key}</h2>
-            <p>Average Electricity Usage: {avg}</p>
-            <p>Average Cost Per Year: {cost}</p>
-            <p>Cost Per MegaWatt: {costPer}</p>
-          </div>)
+          <Area name={key} {...{avg, cost, costPer}} />
+          // <div className="area">
+          //   <h2>{key}</h2>
+          //   <p>Average Electricity Usage: {avg}</p>
+          //   <p>Average Cost Per Year: {cost}</p>
+          //   <p>Cost Per MegaWatt: {costPer}</p>
+          // </div>
+          )
         console.log(value);
       })
     }
@@ -105,25 +115,36 @@ export default class UtilityUsage extends React.Component {
       )
     }
 
-
-
-
-
-
       return (
-        <div>
-            <Grid container spacing={12} direction="column">
-              {savings}
+        <div className={classes.root}>
+          {/* <Grid container spacing={12} direction="column">
+            {savings}
+          </Grid>
+          <Grid container spacing={12} direction="row">
+            <Grid item sm={6}>
+              {prod}
             </Grid>
-            <Grid container spacing={12} direction="row">
-              <Grid item sm={6}>
-                {prod}
-              </Grid>
-              <Grid item sm={6}>
-                {areas}
+          </Grid>
+          <Grid container spacing={12} direction="row">
+            <Grid item xs={12}>
+              {areas}
+            </Grid>
+          </Grid> */}
+          <Grid container spacing={16} direction="column">
+            <Grid item xs={12}>
+              <Grid container spacing={16} direction="row">
+                  {areas}
               </Grid>
             </Grid>
-          </div>
+            
+          </Grid>
+        </div>
       );
   }
 }
+
+UtilityUsage.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(UtilityUsage);
