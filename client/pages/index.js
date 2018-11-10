@@ -23,18 +23,16 @@ const styles = theme => ({
   searchFormGrid: {
     alignContent: 'center',
     alignItems: 'center',
-    marginVertical: 100,
     paddingTop: 50,
     paddingBottom: 70
   },
   textField: {
     marginLeft: 0,
     marginRight: 0,
-    width: 500
+    width: '100%'
   },
   submitButton: {
-    // margin: theme.spacing.unit,
-    width: 500
+    width: '100%'
   },
 })
 
@@ -206,7 +204,9 @@ class Home extends React.Component {
 
         <p>{error}</p>
 
-        <Grid container spacing={12} direction="column" className={classes.searchFormGrid}>
+        <Grid container spacing={12} direction="row" className={classes.searchFormGrid}>
+          <Grid item xs={3} className={classes.searchFormGrid}></Grid>
+
           <Grid item xs={6} className={classes.searchFormGrid}>
 
               <TextField
