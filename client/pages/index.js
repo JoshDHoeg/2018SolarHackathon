@@ -4,16 +4,41 @@ import Head from '../components/head'
 import Nav from '../components/nav'
 import Dashboard from '../components/dashboard'
 
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+
 import {GetGeocodeFromAddress} from '../lib/google';
 import {GetExpendituresGHGBySector, GetPVWatts, GetUtilityRates} from '../lib/nrel';
 
-const styles = {
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
   errorText: {
     color: 'red'
-  }
-}
+  },
+  searchFormGrid: {
+    alignContent: 'center',
+    alignItems: 'center',
+    marginVertical: 100,
+    paddingTop: 50,
+    paddingBottom: 70
+  },
+  textField: {
+    marginLeft: 0,
+    marginRight: 0,
+    width: 500
+  },
+  submitButton: {
+    // margin: theme.spacing.unit,
+    width: 500
+  },
+})
 
-export default class Home extends React.Component {
+class Home extends React.Component {
 
   state= {
     error: '', 
@@ -158,11 +183,13 @@ export default class Home extends React.Component {
     })
   }
 
-  handleChange(event) {
-    this.setState({address: event.target.value});
-  }
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
 
-  handleSubmit(event) {
+  handleSubmit (event) {
     this.loadData();
     event.preventDefault();
   }
@@ -170,29 +197,36 @@ export default class Home extends React.Component {
 
   render() {
     const {error, zip, address, city, state, expenditure} = this.state;
+    const { classes } = this.props;
     
     return (
-      <div>
+      <div className={classes.root}>
         <Head title="Home" />
         <Nav />
 
+        <p>{error}</p>
 
-        <header className="App-header" >
-          <div className="App-header-info">
+        <Grid container spacing={12} direction="column" className={classes.searchFormGrid}>
+          <Grid item xs={6} className={classes.searchFormGrid}>
 
-            <h1 className="App-title">Welcome to Daddy</h1>
-            <p>Enter an address to find the cost of a solar plan</p>
+              <TextField
+                id="outlined-name"
+                label="Enter an Address"
+                className={classes.textField}
+                value={this.state.name}
+                onChange={this.handleChange('address')}
+                margin="normal"
+                variant="outlined"
+              />
 
-            {(error && error != '') ? <p style={styles.errorText}>{error}</p> : null}
+              {(error && error != '') ? <p style={classes.errorText}>{error}</p> : null}
 
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                <input className="input-zip" type="text" value={this.state.address} onChange={this.handleChange} />
-              </label>
-              <input className="input-submit" type="submit" value="Submit" />
-            </form>
-          </div>
-        </header>
+              <Button variant="contained" color="primary" onClick={this.loadData} className={classes.submitButton}>
+                Search
+              </Button>
+
+          </Grid>
+        </Grid>
 
         <Dashboard {...this.state}/>
 
@@ -200,3 +234,9 @@ export default class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Home)

@@ -1,5 +1,31 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import Link from 'next/link'
+
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import Button from '@material-ui/core/Button';
+
+const styles = {
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+  logo: {
+    cursor: 'pointer',
+    width: 100
+  }
+};
 
 const links = [
   { href: 'https://github.com/segmentio/create-next-app', label: 'Github' }
@@ -8,52 +34,36 @@ const links = [
   return link
 })
 
-const Nav = () => (
-  <nav>
-    <ul>
-      <li>
-        <Link prefetch href="/">
-          <a>Home</a>
-        </Link>
-      </li>
-      <ul>
-        {links.map(({ key, href, label }) => (
-          <li key={key}>
-            <Link href={href}>
-              <a>{label}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </ul>
+const Nav = (props) => {
 
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-    `}</style>
-  </nav>
-)
+  const { classes } = props;
 
-export default Nav
+  return (
+  <div className={classes.root}>
+        <AppBar 
+          position="static"
+          title={<img src="/static/logo.png"/>}
+        >
+          <Toolbar>
+            <img src="/static/logo.png" width={200}/>
+
+            
+              <div className={classes.grow}>
+                  
+              </div>
+
+              <Link href="/dashboard">
+                <Button color="inherit">GitHub</Button>
+              </Link>
+            
+          </Toolbar>
+        </AppBar>
+      </div>
+  )
+}
+
+Nav.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Nav)
