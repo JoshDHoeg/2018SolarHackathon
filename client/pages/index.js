@@ -5,7 +5,7 @@ import Nav from '../components/nav'
 import Dashboard from '../components/dashboard'
 
 import {GetGeocodeFromAddress} from '../lib/google';
-import {GetExpendituresGHGBySector} from '../lib/nrel';
+import {GetExpendituresGHGBySector, GetPVWatts} from '../lib/nrel';
 
 const styles = {
   errorText: {
@@ -15,9 +15,16 @@ const styles = {
 
 export default class Home extends React.Component {
 
+  state= {
+    error: '', 
+    ready: false, 
+    address: null, 
+    lat: null, 
+    lon: null ,
+  };
+
   constructor() {
     super();
-    this.state = {error: '', address: '', lat: '', lon: '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,6 +32,14 @@ export default class Home extends React.Component {
   }
 
   loadData = async () => {
+    let zip = null;
+    let city = null;
+    let state = null;
+    let expenditure = null;
+    let lat = null;
+    let lon = null;
+    let pvwatt = null
+
     if (this.state.address == '') {
       this.setState({error: 'Please enter a valid address'})
       return
@@ -40,21 +55,20 @@ export default class Home extends React.Component {
     
     // (!) Looks like geocode always gives an address, so assume we found it! 
     
+    // Get latitude and longitude
     let location = geocodeResult.data.results[0].geometry.location;
-    this.setState({lat: location.lat, lon: location.lng});
+    lat = location.lat;
+    lon = location.lng;
+    
     let addressComponents = geocodeResult.data.results[0].address_components
 
-    // Parse Geocode
+    // If no results for address, we probably hit an error
     if (addressComponents.length == 0) {
       this.setState({error: "We couldn't find that address!"})
       return
     }
 
-    let zip = null;
-    let city = null;
-    let state = null;
-    let expenditure = null;
-
+    // Parse out components of address
     for (let j = 0; j < addressComponents.length; j++) {
       if (addressComponents[j].types[0] == 'postal_code'){
         zip = addressComponents[j].short_name;
@@ -81,10 +95,39 @@ export default class Home extends React.Component {
       this.setState({error: 'Expenditure data is not available.'})
       return;
     }
-    
 
+    console.log("LAT: ", lat)
+    console.log("LON: ", lon)
+
+    // Get PVWatts Data
+    try {
+      const {data} = await GetPVWatts({
+        lat, 
+        lon, 
+        system_capacity: 40, 
+        module_type: 0, // standard, 
+        losses: 0, 
+        array_type: 0, // fixed open rack 
+        tilt: 45, 
+        azimuth: 45, 
+      })
+
+      if (data.errors.length > 0) {
+        this.setState({error: 'No PV Watt data available for this address.'});
+        return;
+      }
+
+      pvwatt = data.outputs;
+    } catch (e) {
+      this.setState({error: 'Error fetching PV Watt data.'});
+      return;
+    }
+    
+    // Update state with loaded data
     this.setState({
-      zip, city, state, expenditure
+      zip, city, state, expenditure,
+      lat, lon, 
+      pvwatt
     })
   }
 
