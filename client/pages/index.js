@@ -73,7 +73,7 @@ export default class Home extends React.Component {
           </div>
         </header>
 
-        <Dashboard />
+        <Dashboard address={this.state}/>
 
       </div>
     );
