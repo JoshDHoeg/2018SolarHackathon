@@ -13,7 +13,11 @@ const styles = theme => ({
   gridContainer: {
     alignContent: 'center',
     alignItems: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: '24px'
+  },
+  gridItem: {
+    padding: '24px'
   },
   greenText: {
     color: '#2ecc71'
@@ -24,27 +28,15 @@ class ROI extends React.Component {
   render() {
     const { classes, ready, value } = this.props;
 
-    // // Don't show anything if 
-    // if (value == null) {
-    //   return null
-    // }
-    // if (!ready) {
-    //   // TODO - show loading screen
-    // }
-
     return (
-      <div className={classes.root}>
-        <Grid container spacing={16} direction="column" className={classes.gridContainer}>
-            <Grid item xs={12}>
-              <Typography className={classes.greenText} component="h2" variant="h6" gutterBottom>
-                Return on Investment
-              </Typography>
-              <Typography className={classes.greenText} component="h2" variant="h1" gutterBottom>
-                ${value}
-              </Typography>
-            </Grid>
-          </Grid>
-      </div>
+        <Grid className={classes.gridItem} item xs={12} lg={4}>
+          <Typography className={classes.greenText} component="h2" variant="h6" gutterBottom>
+            {this.props.roiText}
+          </Typography>
+          <Typography className={classes.greenText} component="h2" variant="h1" gutterBottom>
+            ${value}
+          </Typography>
+        </Grid>
     );
   }
 }
