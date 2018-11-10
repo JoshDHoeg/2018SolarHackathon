@@ -87,20 +87,17 @@ export default class UtilityUsage extends React.Component {
 
       savings.push(
         <div className="save">
-          <ROI value={savingann} />
-          <h2>Yearly Savings (MWH):</h2>
+          <ROI roiText={"Yearly Savings (MWH): "}value={savinglow} />
         </div>
       )
       savings.push(
         <div className="save">
-          <ROI value={savingpeak} />
-          <h2>Peak Monthly Savings (MWH):</h2>
+          <ROI roiText={"Peak Monthly Savings (MWH): "}value={savinglow} />
         </div>
       )
       savings.push(
         <div className="save">
-          <ROI value={savinglow} />
-          <h2>Low Months Savigns (MWH):</h2>
+          <ROI roiText={"Low Months Savigns (MWH): "}value={savinglow} />
         </div>
       )
     }

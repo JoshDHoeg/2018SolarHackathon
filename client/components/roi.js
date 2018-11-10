@@ -24,20 +24,12 @@ class ROI extends React.Component {
   render() {
     const { classes, ready, value } = this.props;
 
-    // // Don't show anything if 
-    // if (value == null) {
-    //   return null
-    // }
-    // if (!ready) {
-    //   // TODO - show loading screen
-    // }
-
     return (
       <div className={classes.root}>
         <Grid container spacing={16} direction="column" className={classes.gridContainer}>
             <Grid item xs={12}>
               <Typography className={classes.greenText} component="h2" variant="h6" gutterBottom>
-                Return on Investment
+                {this.props.roiText}
               </Typography>
               <Typography className={classes.greenText} component="h2" variant="h1" gutterBottom>
                 ${value}
