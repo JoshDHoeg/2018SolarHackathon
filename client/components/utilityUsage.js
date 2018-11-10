@@ -1,6 +1,7 @@
 import React from 'react'
 import Area from './area'
 import Grid from '@material-ui/core/Grid';
+import ROI from './roi';
 
 export default class UtilityUsage extends React.Component {
   constructor(props) {
@@ -41,9 +42,9 @@ export default class UtilityUsage extends React.Component {
         let elec_mwh  = this.props.expenditure[key].residential.elec_mwh;
         let elec_1kdollars  = this.props.expenditure[key].residential.elec_1kdollars;
 
-        avg = elec_mwh/housing_units;
-        cost = elec_1kdollars/housing_units * 1000;
-        costPer = elec_1kdollars/elec_mwh * 1000;
+        avg = Math.floor(elec_mwh/housing_units);
+        cost = Math.floor(elec_1kdollars/housing_units * 1000);
+        costPer = Math.floor(elec_1kdollars/elec_mwh * 1000);
         areas.push(
           <div className="area">
             <h2>{key}</h2>
@@ -58,14 +59,14 @@ export default class UtilityUsage extends React.Component {
 
 
     if(this.props.pvwatt) {
-      annprod = parseFloat(this.props.pvwatt.ac_annual) * 0.001;
+      annprod = Math.floor(parseFloat(this.props.pvwatt.ac_annual) * 0.001);
       prod.push(
         <div className="prod">
           <h2>Amount Produced Annually (MWH):</h2>
           <p>{annprod}</p>
         </div>
       )
-      peakprod = parseFloat(this.props.pvwatt.ac_monthly.sort()[0]) * 0.001;
+      peakprod = Math.floor(parseFloat(this.props.pvwatt.ac_monthly.sort()[0]) * 0.001);
       prod.push(
         <div className="prod">
           <h2>Amount Produced In Peak Month (MWH):</h2>
@@ -80,26 +81,26 @@ export default class UtilityUsage extends React.Component {
         </div>
       )
 
-      let savingann = annprod*costPer;
-      let savingpeak = peakprod*costPer;
-      let savinglow = lowprod*costPer;
+      let savingann = Math.floor(annprod*costPer);
+      let savingpeak = Math.floor(peakprod*costPer);
+      let savinglow = Math.floor(lowprod*costPer);
 
       savings.push(
         <div className="save">
-          <h2>Saved In Production Year (MWH):</h2>
-          <p>{savingann}</p>
+          <ROI value={savingann} />
+          <h2>Yearly Savings (MWH):</h2>
         </div>
       )
       savings.push(
         <div className="save">
-          <h2>Saved In Peak Production Month (MWH):</h2>
-          <p>{savingpeak}</p>
+          <ROI value={savingpeak} />
+          <h2>Peak Monthly Savings (MWH):</h2>
         </div>
       )
       savings.push(
         <div className="save">
-          <h2>Saved In Lowest Production Month (MWH):</h2>
-          <p>{savinglow}</p>
+          <ROI value={savinglow} />
+          <h2>Low Months Savigns (MWH):</h2>
         </div>
       )
     }
