@@ -16,10 +16,10 @@ const styles = {
 export default class Home extends React.Component {
 
   state= {
-    error: '', 
-    ready: false, 
-    address: null, 
-    lat: null, 
+    error: '',
+    ready: false,
+    address: null,
+    lat: null,
     lon: null ,
   };
 
@@ -56,14 +56,14 @@ export default class Home extends React.Component {
       this.setState({error: 'NREL servers are unavailable at the moment.'})
       return;
     }
-    
-    // (!) Looks like geocode always gives an address, so assume we found it! 
-    
+
+    // (!) Looks like geocode always gives an address, so assume we found it!
+
     // Get latitude and longitude
     let location = geocodeResult.data.results[0].geometry.location;
     lat = location.lat;
     lon = location.lng;
-    
+
     let addressComponents = geocodeResult.data.results[0].address_components
 
     // If no results for address, we probably hit an error
@@ -122,14 +122,14 @@ export default class Home extends React.Component {
     // Get PVWatts Data
     try {
       const {data} = await GetPVWatts({
-        lat, 
-        lon, 
-        system_capacity: 40, 
-        module_type: 0, // standard, 
-        losses: 0, 
-        array_type: 0, // fixed open rack 
-        tilt: 45, 
-        azimuth: 45, 
+        lat,
+        lon,
+        system_capacity: 40,
+        module_type: 0, // standard,
+        losses: 0,
+        array_type: 0, // fixed open rack
+        tilt: 45,
+        azimuth: 45,
       })
 
       if (data.errors.length > 0) {
@@ -142,16 +142,16 @@ export default class Home extends React.Component {
       this.setState({error: 'Error fetching PV Watt data.'});
       return;
     }
-    
+
     // Update state with loaded data
     // Set ready to true once data is loaded
     this.setState({
-      zip, 
-      city, 
-      state, 
+      zip,
+      city,
+      state,
       expenditure,
-      lat, 
-      lon, 
+      lat,
+      lon,
       pvwatt,
       utilityRates,
       ready: true
@@ -170,7 +170,7 @@ export default class Home extends React.Component {
 
   render() {
     const {error, zip, address, city, state, expenditure} = this.state;
-    
+
     return (
       <div>
         <Head title="Home" />

@@ -19,7 +19,7 @@ export default class Dashboard extends React.Component {
         <p>State: {this.props.state}</p>
         <p>City: {this.props.city}</p>
         <PvWatts />
-        <UtilityUsage />
+        <UtilityUsage expenditure={this.props.expenditure} utilityRates={this.props.utilityRates}/>
         <MyMap lat={this.props.lat} lon={this.props.lon}/>
       </div>
     );
