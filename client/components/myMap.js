@@ -10,6 +10,14 @@ export default class MyMap extends React.Component {
     this.setState({center:{lat: this.props.lat, lng: this.props.lon}});
   }
 
+  renderMarkers = (map, maps) => {
+    let marker = new maps.Marker({
+      position: {lat: this.props.lat, lng: this.props.lon},
+      map,
+      title: 'Hello World!'
+    });
+  }
+
   render() {
     if(this.props.lat != null) { 
       let center = {lat: this.props.lat, lng: this.props.lon};
@@ -18,7 +26,9 @@ export default class MyMap extends React.Component {
             <GoogleMapReact
                 bootstrapURLKeys={{ key: 'AIzaSyCnzBSpHacGXihBxlceazNT2dWoXRBz750'}}
                 defaultCenter={ center }
-                defaultZoom={ 12 }>
+                defaultZoom={ 12 }
+                onGoogleApiLoaded={({map, maps}) => this.renderMarkers(map, maps)}
+            >
             </GoogleMapReact>
         </div>
       );
@@ -31,3 +41,7 @@ export default class MyMap extends React.Component {
     }
   }
 };
+
+const Marker = props => {
+  return <div className="SuperAwesomePin"></div>
+}
