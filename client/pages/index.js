@@ -207,10 +207,10 @@ class Home extends React.Component {
 
         <p>{error}</p>
 
-        <Grid container spacing={12} direction="row" className={classes.searchFormGrid}>
-          <Grid item xs={3} className={classes.searchFormGrid}></Grid>
+        <Grid container spacing={16} direction="row" className={classes.searchFormGrid}>
+          <Grid item xs={2} className={classes.searchFormGrid}></Grid>
 
-          <Grid item xs={6} className={classes.searchFormGrid}>
+          <Grid item xs={8} className={classes.searchFormGrid}>
 
               <TextField
                 id="outlined-name"
