@@ -3,34 +3,44 @@ import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import Dashboard from '../components/dashboard'
-import axios from 'axios';
 
-const usdaInstance = axios.create({
-  baseURL: 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyAXv_Ffe-izY9slVX5D8kpDt_YWIzC-vQU'
-});
-
+import {GetGeocodeFromAddress} from '../lib/google';
 
 export default class Home extends React.Component {
 
   constructor() {
     super();
-    this.state = {address: '', lat: '', long: '' };
+    this.state = {address: '', lat: '', lng: '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.loadData = this.loadData.bind(this);
   }
 
-  componentDidMount() {
-    this.loadData();
-  }
+  loadData = async () => {
+    const result = await GetGeocodeFromAddress(this.state.address)
 
-  loadData () {
-    usdaInstance.get()
-    .then(res => {
-      const zipdata = res.data;
-      console.log(zipdata);
-      });
+    let location = result.data.results[0].geometry.location;
+    this.setState({lat: location.lat, lng: location.lng});
+
+    let address = result.data.results[0].address_components
+    // console.log(address);
+    for (let j = 0; j < address.length; j++) {
+      if (address[j].types[0] == 'postal_code'){
+        this.setState({zip: address[j].short_name});
+        // console.log("Zip Code: " + this.state.zip);
+      }
+      else if (address[j].types[0] == 'locality'){
+        this.setState({city: address[j].short_name});
+        // console.log("City: " + this.state.city);
+      }
+      else if (address[j].types[0] == 'administrative_area_level_1'){
+        this.setState({state: address[j].short_name});
+        // console.log("State: " + this.state.state);
+      }
+
+      // console.log(this.state);
+    }
   }
 
   handleChange(event) {
@@ -63,7 +73,7 @@ export default class Home extends React.Component {
           </div>
         </header>
 
-        <Dashboard />
+        <Dashboard address={this.state}/>
 
       </div>
     );
