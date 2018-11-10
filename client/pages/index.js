@@ -5,7 +5,7 @@ import Nav from '../components/nav'
 import Dashboard from '../components/dashboard'
 
 import {GetGeocodeFromAddress} from '../lib/google';
-import {GetExpendituresGHGBySector, GetPVWatts} from '../lib/nrel';
+import {GetExpendituresGHGBySector, GetPVWatts, GetUtilityRates} from '../lib/nrel';
 
 const styles = {
   errorText: {
@@ -38,10 +38,11 @@ export default class Home extends React.Component {
     let zip = null;
     let city = null;
     let state = null;
-    let expenditure = null;
     let lat = null;
     let lon = null;
-    let pvwatt = null
+    let pvwatt = null;
+    let expenditure = null;
+    let utilityRates = null;
 
     if (this.state.address == '') {
       this.setState({error: 'Please enter a valid address'})
@@ -99,8 +100,24 @@ export default class Home extends React.Component {
       return;
     }
 
-    console.log("LAT: ", lat)
-    console.log("LON: ", lon)
+    // Get Utility Rates
+    try {
+      const {data: {errors, outputs}} = await GetUtilityRates({
+        lat,
+        lon,
+        radius: 10
+      })
+      
+      if (errors.length > 0) {
+        this.setState({error: 'Error getting utility rate data.'})
+        return;
+      }
+
+      utilityRates = outputs;
+    } catch(e) {
+      this.setState({error: 'Error fetching Utility Rate data.'});
+      return;
+    }
 
     // Get PVWatts Data
     try {
@@ -136,6 +153,7 @@ export default class Home extends React.Component {
       lat, 
       lon, 
       pvwatt,
+      utilityRates,
       ready: true
     })
   }
