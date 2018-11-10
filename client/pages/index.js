@@ -3,12 +3,8 @@ import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import Dashboard from '../components/dashboard'
-import axios from 'axios';
 
-const usdaInstance = axios.create({
-  baseURL: 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyAXv_Ffe-izY9slVX5D8kpDt_YWIzC-vQU'
-});
-
+import {GetGeocodeFromAddress} from '../lib/google';
 
 export default class Home extends React.Component {
 
@@ -22,15 +18,12 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.loadData();
+    // this.loadData();
   }
 
-  loadData () {
-    usdaInstance.get()
-    .then(res => {
-      const zipdata = res.data;
-      console.log(zipdata);
-      });
+  loadData = async () => {
+    const result = await GetGeocodeFromAddress('1600 Amphitheatre Parkway, Mountain View, CA')
+    console.log(result)
   }
 
   handleChange(event) {
