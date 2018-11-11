@@ -24,7 +24,7 @@ export default class MyMap extends React.Component {
       return (
         <div className='google-map' style={{ width: 400, height: 400, boxShadow: `0px 0px 20px grey`}}>
             <GoogleMapReact
-                bootstrapURLKeys={{ key: 'AIzaSyCnzBSpHacGXihBxlceazNT2dWoXRBz750'}}
+                bootstrapURLKeys={{ key: ''}}
                 defaultCenter={ center }
                 defaultZoom={ 12 }
                 onGoogleApiLoaded={({map, maps}) => this.renderMarkers(map, maps)}
